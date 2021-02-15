@@ -99,7 +99,7 @@ public class InMemoryPersistenceTest {
         Set<Blueprint> prueba = new HashSet<>();
         try {
             Point[] pts0 = new Point[]{
-            new Point(30, 30), new Point(5, 5)};
+                    new Point(30, 30), new Point(5, 5)};
             Blueprint bp0 = new Blueprint("falla", "onepaint", pts0);
             ibpp.saveBlueprint(bp0);
             Point[] pts1 = new Point[]{

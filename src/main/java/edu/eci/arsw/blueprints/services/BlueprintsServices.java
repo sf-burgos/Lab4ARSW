@@ -10,9 +10,13 @@ import edu.eci.arsw.blueprints.model.Point;
 import edu.eci.arsw.blueprints.persistence.BlueprintNotFoundException;
 import edu.eci.arsw.blueprints.persistence.BlueprintPersistenceException;
 import edu.eci.arsw.blueprints.persistence.BlueprintsPersistence;
+
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+
+import edu.eci.arsw.blueprints.persistence.FiltersPersistence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -23,8 +27,11 @@ import org.springframework.stereotype.Service;
  */
 @Service ("BlueprintServices")
 public class BlueprintsServices {
-   // @Autowired
-   // BlueprintsPersistence cps;
+
+    @Autowired
+    //@Qualifier("Redundancy")
+    @Qualifier("SubSampling")
+    FiltersPersistence filter;
 
     @Autowired
     @Qualifier("InMemoryBlueprintPersistence")
@@ -33,7 +40,7 @@ public class BlueprintsServices {
     public void addNewBlueprint(Blueprint bp) throws BlueprintPersistenceException {
         bpp.saveBlueprint(bp);
     }
-    
+
     public Set<Blueprint> getAllBlueprints(){
         return null;
     }
@@ -46,7 +53,7 @@ public class BlueprintsServices {
      * @throws BlueprintNotFoundException if there is no such blueprint
      */
     public Blueprint getBlueprint(String author,String name) throws BlueprintNotFoundException{
-        return bpp.getBlueprint(author,name);
+        return filter.Filters(bpp.getBlueprint(author,name));
     }
     
     /**
@@ -56,7 +63,11 @@ public class BlueprintsServices {
      * @throws BlueprintNotFoundException if the given author doesn't exist
      */
     public Set<Blueprint> getBlueprintsByAuthor(String author) throws BlueprintNotFoundException{
-        return bpp.getBlueprintsByAuthor(author);
+        Set<Blueprint> actual =bpp.getBlueprintsByAuthor(author);
+        Set<Blueprint> salida = new HashSet<>();
+        for(Blueprint b:actual){
+            salida.add(filter.Filters(b));
+        }
+        return salida;
     }
-    
 }

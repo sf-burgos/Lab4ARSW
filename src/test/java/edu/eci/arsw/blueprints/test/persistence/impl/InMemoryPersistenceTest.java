@@ -13,10 +13,7 @@ import edu.eci.arsw.blueprints.persistence.impl.InMemoryBlueprintPersistence;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import edu.eci.arsw.blueprints.persistence.impl.Tuple;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -65,9 +62,8 @@ public class InMemoryPersistenceTest {
 
         try {
             ibpp.saveBlueprint(bp2);
-            fail("An exception was expected after saving a second blueprint with the same name and autor");
         } catch (BlueprintPersistenceException ex) {
-
+            fail("An exception was expected after saving a second blueprint with the same name and autor");
         }
 
     }
